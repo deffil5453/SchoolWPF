@@ -1,0 +1,336 @@
+﻿<Window x:Class="SchoolWPF.MainWindow"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        xmlns:views="clr-namespace:SchoolWPF.View.UserControls"
+        xmlns:admin="clr-namespace:SchoolWPF.View.UserControls.Admin"
+        xmlns:vm="clr-namespace:SchoolWPF.ViewModel" 
+        xmlns:vmAdmin="clr-namespace:SchoolWPF.ViewModel.Admin"
+        Title="МБОУ Лагутнинская СОШ" Height="750" Width="1100" WindowStartupLocation="CenterScreen" Background="{StaticResource BackgroundBrush}">
+
+    <Window.Resources>
+        <!-- Маппинг ViewModel → View -->
+        <DataTemplate DataType="{x:Type vmAdmin:UsersViewModel}">
+            <admin:UsersView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:StudentsViewModel}">
+            <views:StudentsView/>
+        </DataTemplate>
+        <!-- Заглушка для журнала (пока в разработке) -->
+        <DataTemplate DataType="{x:Type vm:AttendanceViewModel}">
+            <views:AttendanceView />
+            <!-- ✅ Добавьте эту строку -->
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:StatisticsViewModel}">
+            <views:StatisticsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ScheduleViewModel}">
+            <views:ScheduleView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmAdmin:AdminScheduleViewModel}">
+            <admin:AdminScheduleView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmAdmin:TeachersViewModel}">
+            <admin:TeachersView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmAdmin:ClassesViewModel}">
+            <admin:ClassesView/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Левое меню (оранжевая школьная тема) -->
+        <Border Grid.Column="0" Background="{StaticResource PrimaryBrush}">
+            <StackPanel Margin="0,30,0,0">
+
+                <!-- Логотип школы -->
+                <TextBlock Text="🏫 Лагутнинская СОШ" 
+                   Foreground="White" FontSize="18" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="0,0,0,25"/>
+
+                <!-- 🔹 Кнопка: Пользователи (только админ) -->
+                <Button Content="👥 Пользователи" Command="{Binding ShowUsersCommand}" 
+                Margin="15,5" Height="45" FontSize="14"
+                HorizontalContentAlignment="Left" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="#FFEEDD"/>
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" 
+                                        CornerRadius="8" Padding="10,0">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <!-- Показать только админу -->
+                                <DataTrigger Binding="{Binding IsAdmin}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <!-- Ховер-эффект -->
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- 🔹 Кнопка: Учителя (только админ) -->
+                <Button Content="👨‍🏫 Учителя" Command="{Binding ShowTeachersCommand}" 
+                Margin="15,5" Height="45" FontSize="14"
+                HorizontalContentAlignment="Left" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="#FFEEDD"/>
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" 
+                                        CornerRadius="8" Padding="10,0">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsAdmin}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- 🔹 Кнопка: Классы (только админ) -->
+                <Button Content="🏫 Классы" Command="{Binding ShowClassesCommand}" 
+                Margin="15,5" Height="45" FontSize="14"
+                HorizontalContentAlignment="Left" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="#FFEEDD"/>
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" 
+                                        CornerRadius="8" Padding="10,0">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsAdmin}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- 🔹 Кнопка: Ученики (для всех) -->
+                <Button Content="👨‍🎓 Ученики" Command="{Binding ShowStudentsCommand}" 
+                Margin="15,5" Height="45" FontSize="14"
+                HorizontalContentAlignment="Left" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="#FFEEDD"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" 
+                                        CornerRadius="8" Padding="10,0">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- 🔹 Кнопка: Журнал (для всех) -->
+                <Button Content="📓 Журнал" Command="{Binding ShowAttendanceCommand}" 
+                Margin="15,5" Height="45" FontSize="14"
+                HorizontalContentAlignment="Left" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="#FFEEDD"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" 
+                                        CornerRadius="8" Padding="10,0">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- 🔹 Кнопка: Статистика (для всех) -->
+                <Button Content="📊 Статистика" Command="{Binding ShowStatisticsCommand}" 
+                Margin="15,5" Height="45" FontSize="14"
+                HorizontalContentAlignment="Left" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="#FFEEDD"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" 
+                                        CornerRadius="8" Padding="10,0">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- 🔹 Кнопка: Расписание (для всех) -->
+                <Button Content="📅 Расписание" Command="{Binding ShowScheduleCommand}" 
+                Margin="15,5" Height="45" FontSize="14"
+                HorizontalContentAlignment="Left" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="#FFEEDD"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" 
+                                        CornerRadius="8" Padding="10,0">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- 🔹 Кнопка: Расписание (Админ) -->
+                <Button Content="⚙️ Расписание (Админ)" Command="{Binding ShowAdminScheduleCommand}" 
+                Margin="15,5" Height="45" FontSize="14"
+                HorizontalContentAlignment="Left" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="#FFEEDD"/>
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" 
+                                        CornerRadius="8" Padding="10,0">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsAdmin}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- Разделитель -->
+                <Rectangle Height="2" Fill="{StaticResource AccentBrush}" Margin="20,25"/>
+
+                <!-- 🔹 Кнопка: Выйти (красная, для всех) -->
+                <Button Content="🚪 Выйти" Command="{Binding LogoutCommand}" 
+                Margin="15,5" Height="45" FontSize="14"
+                HorizontalContentAlignment="Left" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="#FFCCCC"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" 
+                                        CornerRadius="8" Padding="10,0">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#CC3333"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+            </StackPanel>
+        </Border>
+
+        <!-- Область контента -->
+        <Border Grid.Column="1" Background="{StaticResource BackgroundBrush}" Padding="25">
+            <ContentControl Content="{Binding CurrentView}"/>
+        </Border>
+    </Grid>
+</Window>

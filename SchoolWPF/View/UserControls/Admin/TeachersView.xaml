@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="SchoolWPF.View.UserControls.Admin.TeachersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SchoolWPF.View.UserControls.Admin"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="{StaticResource BackgroundBrush}" >
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок + кнопка -->
+        <Grid Grid.Row="0" Margin="0,0,0,15">
+            <TextBlock Text="👨‍🏫 Учителя" Style="{StaticResource PageTitle}"/>
+            <Button Content="➕ Добавить учителя" Style="{StaticResource SuccessButton}"
+                    Command="{Binding AddTeacherCommand}" HorizontalAlignment="Right" Width="180"/>
+        </Grid>
+
+        <!-- Список учителей -->
+        <DataGrid Grid.Row="1" Style="{StaticResource ModernDataGrid}"
+                  ItemsSource="{Binding Teachers}" SelectedItem="{Binding SelectedTeacher}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="1.2*"/>
+                <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="1.2*"/>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}" Width="1.2*"/>
+                <DataGridTextColumn Header="Дата рождения" Binding="{Binding BirthDate, StringFormat=dd.MM.yyyy}" Width="1*"/>
+                <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}" Width="1*"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="1.5*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Кнопка удаления -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <Button Content="🗑 Удалить выбранного" Style="{StaticResource DangerButton}"
+                    Command="{Binding DeleteTeacherCommand}" Width="160"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

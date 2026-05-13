@@ -1,0 +1,41 @@
+﻿<Window x:Class="SchoolWPF.View.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:main="clr-namespace:SchoolWPF.ViewModel.Main" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        Title="Вход в систему" Height="500" Width="500" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid>
+        <Border HorizontalAlignment="Center" Width="500" Style="{StaticResource Card}">
+            <StackPanel VerticalAlignment="Center" Margin="0">
+
+                <!-- Заголовок формы -->
+                <TextBlock Text="🔐 Вход в систему" Style="{StaticResource PageTitle}" 
+                           HorizontalAlignment="Center" Margin="0,0,0,30"/>
+
+                <!-- Логин -->
+                <TextBlock Text="Логин" Style="{StaticResource FieldLabel}"/>
+                <TextBox x:Name="LoginTextBox" Style="{StaticResource ModernTextBox}"
+                         Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" 
+                         Margin="0,0,0,20"/>
+
+                <!-- Пароль -->
+                <TextBlock Text="Пароль" Style="{StaticResource FieldLabel}"/>
+                <PasswordBox x:Name="PasswordBox"
+                             Margin="0,0,0,25"/>
+
+                <!-- Сообщение об ошибке -->
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="{StaticResource ErrorBrush}"
+                           Margin="0,0,0,25" TextWrapping="Wrap" FontWeight="Medium" FontSize="13"/>
+
+                <!-- Кнопка входа -->
+                <Button Content="Войти" Style="{StaticResource PrimaryButton}"
+                        Command="{Binding LoginCommand}" 
+                        CommandParameter="{Binding ElementName=PasswordBox}"
+                        Height="45" FontSize="16" Margin="0,0,0,15"/>
+
+                <!-- Подсказка -->
+                <TextBlock Text="Для входа обратитесь к администратору" 
+                           Foreground="#8B7500" FontSize="11" 
+                           HorizontalAlignment="Center" FontStyle="Italic"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
