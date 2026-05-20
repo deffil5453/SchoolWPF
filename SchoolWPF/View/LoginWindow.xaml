@@ -19,13 +19,14 @@
                 <!-- Пароль -->
 
                 <!-- Пароль -->
+                <!-- Пароль -->
                 <TextBlock Text="Пароль" Style="{StaticResource FieldLabel}"/>
                 <PasswordBox x:Name="PasswordBox" 
                      Style="{StaticResource ModernPasswordBox}"
-                     HorizontalContentAlignment="Center"
+                     HorizontalContentAlignment="Left"
                      VerticalContentAlignment="Center"
-                     Padding="0"
-                     Margin="0,0,0,25"/>    
+                     Padding="12,0"
+                     Margin="0,0,0,25"/>
 
                 <!-- Сообщение об ошибке -->
                 <TextBlock Text="{Binding ErrorMessage}" Foreground="{StaticResource ErrorBrush}"
@@ -36,11 +37,6 @@
                         Command="{Binding LoginCommand}" 
                         CommandParameter="{Binding ElementName=PasswordBox}"
                         Height="45" FontSize="16" Margin="0,0,0,15"/>
-
-                <!-- Подсказка -->
-                <TextBlock Text="Для входа обратитесь к администратору" 
-                           Foreground="#8B7500" FontSize="11" 
-                           HorizontalAlignment="Center" FontStyle="Italic"/>
             </StackPanel>
         </Border>
     </Grid>
