@@ -17,9 +17,15 @@
                          Margin="0,0,0,20"/>
 
                 <!-- Пароль -->
+
+                <!-- Пароль -->
                 <TextBlock Text="Пароль" Style="{StaticResource FieldLabel}"/>
-                <PasswordBox x:Name="PasswordBox"
-                             Margin="0,0,0,25"/>
+                <PasswordBox x:Name="PasswordBox" 
+                     Style="{StaticResource ModernPasswordBox}"
+                     HorizontalContentAlignment="Center"
+                     VerticalContentAlignment="Center"
+                     Padding="0"
+                     Margin="0,0,0,25"/>    
 
                 <!-- Сообщение об ошибке -->
                 <TextBlock Text="{Binding ErrorMessage}" Foreground="{StaticResource ErrorBrush}"

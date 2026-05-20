@@ -68,7 +68,6 @@ namespace SchoolWPF.AppContext
                     FirstName = "Елена",
                     MiddleName = "Викторовна",
                     IsClassTeacher = true
-                    // ❌ Убрали HireDate = DateTime.Now.AddYears(-3) — нельзя в HasData!
                 }
             );
 
